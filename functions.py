@@ -19,6 +19,8 @@ async def get_ai_response(task: str, text: str) -> str:
 
         if task == "grammar":
             prompt = f"Check for grammar and spelling errors. Return a grammatically correct version of the text:\n\n{text}"
+        elif task == "summarize":
+            prompt = f"Summarize the following text. Return a concise version capturing the highlights of the text:\n\n{text}"
         else:
             prompt = text
 
@@ -30,15 +32,8 @@ async def get_ai_response(task: str, text: str) -> str:
     except Exception as e:
         print(f"❌ Error in AI request: {e}")
         return f"Error: {e}"
-
-"""
-def translate_text(text: str, dest_language: str = "en") -> str:
-    try:
-        translator = GoogleTranslator(source="auto", target=dest_language)
-        return translator.translate(text)
-    except Exception as e:
-        return f"Error: {e}"
-""" 
+    
+    
 
 def translate_text(text: str, source_language: str, target_language: str) -> str:
     try:

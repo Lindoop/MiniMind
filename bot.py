@@ -38,6 +38,12 @@ waiting_messages = {
         "Identifying the language... 📜",
         "Just a moment while we detect the language... 🕒",
     ],
+    "summarize": [
+        "Summarizing your text... 📝",
+        "Breaking it down... 🔍",
+        "Giving you the highlights... 🌟",
+        "Compressing your text... 💼",
+    ]
 }
 
 
@@ -56,6 +62,8 @@ async def on_ready():
 async def ping(ctx):
     await ctx.send("Pong! 🏓")
 
+
+
 @bot.command()
 async def grammar(ctx, *, text: str):
     message = await ctx.send(random.choice(waiting_messages["grammar"]))
@@ -65,6 +73,8 @@ async def grammar(ctx, *, text: str):
         await message.edit(content=response)
 
     asyncio.create_task(background_task())
+
+
 
 @bot.command()
 async def translate(ctx, language_pair: str, *, text: str):
@@ -79,7 +89,6 @@ async def translate(ctx, language_pair: str, *, text: str):
     translated_text = translate_text(text, source_lang, target_lang)
     await message.edit(content=f"**Translated from {source_lang} to {target_lang}:** {translated_text}")
 
-
 @bot.command()
 async def language(ctx, language_name: str):
     message = await ctx.send(random.choice(waiting_messages["language"]))
@@ -92,6 +101,15 @@ async def language(ctx, language_name: str):
 
 
 
+@bot.command()
+async def summarize(ctx, *, text: str):
+    message = await ctx.send(random.choice(waiting_messages["summarize"]))
+    
+    async def background_task():
+        response = await get_ai_response("summarize", text)
+        await message.edit(content=f"**Paraphrased Text:** {response}")
+    
+    asyncio.create_task(background_task())
 
 
 @bot.command()
