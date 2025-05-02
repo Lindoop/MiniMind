@@ -4,7 +4,7 @@ MiniMind is a lightweight Discord bot I built as a personal side project — thi
 ✨ Features:
 * Grammar Checker – Reviews text for spelling and grammatical errors
 * Translator – Translates text between various languages (e.g., English, French, Chinese)
-* Paraphraser – Rewrites input for clarity or variation
+* Summarizer – Condenses long text into a shorter, summarized version
 
 🛠️ Built With:
 * Python
