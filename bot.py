@@ -1,5 +1,5 @@
 # Library Import
-import discord  
+import discord
 import asyncio
 import random
 import os
@@ -18,6 +18,17 @@ from functions import translate_text
 
 load_dotenv(dotenv_path='minimind.env')
 TOKEN = os.getenv('DISCORD_TOKEN')
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "I'm alive! 🚀"
+
+intents = discord.Intents.default()
+intents.message_content = True
+bot = commands.Bot(command_prefix="!", intents=intents, help_command=None)
+
 
 # Global Variables
 language_map = { "albanian": "sq", "amharic": "am", "arabic": "ar", "armenian": "hy", "basque": "eu", "bengali": "bn", "bosnian": "bs", "bulgarian": "bg", "catalan": "ca", "chichewa": "ny", "chinese": "zh-CN", "croatian": "hr", "czech": "cs", "danish": "da", "dutch": "nl", "english": "en", "estonian": "et", "farsi": "fa", "filipino": "tl", "finnish": "fi", "french": "fr", "georgian": "ka", "german": "de", "greek": "el", "haitian creole": "ht", "hebrew": "he", "hindi": "hi", "hungarian": "hu", "icelandic": "is", "indonesian": "id", "irish": "ga", "italian": "it", "japanese": "ja", "javanese": "jw", "kannada": "kn", "korean": "ko", "kurdish": "ku", "latin": "la", "latvian": "lv", "lithuanian": "lt", "malagasy": "mg", "malayalam": "ml", "malaysian": "ms", "mandarin": "zh", "marathi": "mr", "mongolian": "mn", "nepali": "ne", "norwegian": "no", "pashto": "ps", "polish": "pl", "portuguese": "pt", "punjabi": "pa", "romanian": "ro", "russian": "ru", "serbian": "sr", "sesotho": "st", "sinhala": "si", "slovak": "sk", "swahili": "sw", "swedish": "sv", "tagalog": "tl", "tamil": "ta", "telugu": "te", "thai": "th", "tigrinya": "ti", "turkish": "tr", "ukrainian": "uk", "vietnamese": "vi", "welsh": "cy", "xhosa": "xh", "yiddish": "yi", "zulu": "zu" }
@@ -53,10 +64,6 @@ waiting_messages = {
         "Exploring word options... 🧠",
     ]
 }
-
-intents = discord.Intents.default()
-intents.message_content = True
-bot = commands.Bot(command_prefix="!", intents=intents, help_command=None)
 
 @bot.event
 async def on_ready():
@@ -169,16 +176,10 @@ Use this command to retrieve the language code for a language, which can then be
     else:
         await ctx.send("Unknown command. Type `!help` for a list of commands.")
 
-def home():
-    return "I'm alive! 🚀"
 
-def run():
-    app.run(host='0.0.0.0', port=8080)
+def run_flask():
+    app.run(host="0.0.0.0", port=3000)
 
-def keep_alive():
-    thread = threading.Thread(target=run)
-    thread.start()
-
-keep_alive
+threading.Thread(target=run_flask).start()
 
 bot.run(TOKEN)
