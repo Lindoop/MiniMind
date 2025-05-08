@@ -176,10 +176,15 @@ Use this command to retrieve the language code for a language, which can then be
     else:
         await ctx.send("Unknown command. Type `!help` for a list of commands.")
 
+async def run_bot():
+    await bot.start(TOKEN)
 
 def run_flask():
-    app.run(host="0.0.0.0", port=3000)
+    app.run(host='0.0.0.0', port=3000, use_reloader=False)
 
-threading.Thread(target=run_flask).start()
-
-bot.run(TOKEN)
+if __name__ == "__main__":
+    loop = asyncio.get_event_loop()
+    loop.create_task(run_bot())
+    loop.run_in_executor(None, run_flask)
+    loop.run_forever()
+#bot.run(TOKEN)
