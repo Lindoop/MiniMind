@@ -3,18 +3,20 @@ import discord
 import asyncio
 import random
 import os
+import threading
 
 # Discord Library Import
 from discord.ext import commands
 
 # Environment Variables Fetch
+from flask import Flask
 from dotenv import load_dotenv
-load_dotenv(dotenv_path='minimind.env')
 
 # Functions File Import
 from functions import get_ai_response
 from functions import translate_text
 
+load_dotenv(dotenv_path='minimind.env')
 TOKEN = os.getenv('DISCORD_TOKEN')
 
 # Global Variables
@@ -52,16 +54,13 @@ waiting_messages = {
     ]
 }
 
-
 intents = discord.Intents.default()
 intents.message_content = True
-
 bot = commands.Bot(command_prefix="!", intents=intents, help_command=None)
 
 @bot.event
 async def on_ready():
     print(f"✅ Logged in as {bot.user}")
-
 
 
 @bot.command()
@@ -170,5 +169,16 @@ Use this command to retrieve the language code for a language, which can then be
     else:
         await ctx.send("Unknown command. Type `!help` for a list of commands.")
 
+def home():
+    return "I'm alive! 🚀"
+
+def run():
+    app.run(host='0.0.0.0', port=8080)
+
+def keep_alive():
+    thread = threading.Thread(target=run)
+    thread.start()
+
+keep_alive
 
 bot.run(TOKEN)
