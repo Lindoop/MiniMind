@@ -43,6 +43,12 @@ waiting_messages = {
         "Breaking it down... 🔍",
         "Giving you the highlights... 🌟",
         "Compressing your text... 💼",
+    ],
+    "synonym": [
+        "Finding the perfect match... 🔍",
+        "Fetching synonyms... 📚",
+        "Digging up synonyms... 🌱",
+        "Exploring word options... 🧠",
     ]
 }
 
@@ -113,6 +119,22 @@ async def summarize(ctx, *, text: str):
 
 
 @bot.command()
+async def dictionary(ctx, word: str):
+    message = await ctx.send(random.choice(waiting_messages["dictionary"]))
+
+    response = await get_ai_response("dictionary", word)
+    await message.edit(content=f"**Definition of '{word}':**\n{response}")
+
+
+@bot.command()
+async def synonym(ctx, word: str):
+    message = await ctx.send(random.choice(waiting_messages["synonym"]))
+
+    response = await get_ai_response("synonym", word)
+    await message.edit(content=f"**Synonyms for '{word}':**\n{response}")
+
+
+@bot.command()
 async def help(ctx, command: str=None):
     if command is None:
         help_message = """
@@ -121,7 +143,8 @@ async def help(ctx, command: str=None):
 !help - Show this help message ❓
 !grammar <text> - Check for grammar and spelling errors ✍️
 !translate <text> - Translate text to English 🌍
-!language <language> - Retrieves the language code for the specified language.```"""
+!language <language> - Retrieves the language code for the specified language.
+!summarize <text> - Condenses long text into a short summary.```"""
         await ctx.send(help_message)
     elif command == "translate":
         translate_help = """

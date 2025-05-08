@@ -21,13 +21,14 @@ async def get_ai_response(task: str, text: str) -> str:
             prompt = f"Check for grammar and spelling errors. Return a grammatically correct version of the text:\n\n{text}"
         elif task == "summarize":
             prompt = f"Summarize the following text. Return a concise version capturing the highlights of the text:\n\n{text}"
+        elif task =="dictionary":
+            prompt =f"Give me a concise definition for the word '{text}'"
+        elif task == "synonym":
+            prompt = f"Provide a simple list of 1-5 synonyms for the word '{text}', no extra details."
         else:
             prompt = text
 
-        #gen_start = time.time()
         response = await asyncio.to_thread(model.generate_content, prompt)
-        #print(f"[{time.time() - gen_start:.2f}s] AI generation took")
-
         return response.text if response.text else "Sorry, I couldn't generate a response."
     except Exception as e:
         print(f"❌ Error in AI request: {e}")
